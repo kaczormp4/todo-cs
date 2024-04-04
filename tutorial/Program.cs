@@ -47,7 +47,7 @@ while (reader.Read())
 
 }
 
-var newQuery = $"update highscores set score = ${newRecord.score} where name = ${newRecord.name}";
+var newQuery = $"update highscores set score = {newRecord?.score} where name = '{newRecord?.name}'";
 
 SQLiteCommand updateCommand = new SQLiteCommand(newQuery, m_dbConnection);
 updateCommand.ExecuteNonQuery();
@@ -70,21 +70,6 @@ while (reader2.Read())
 }
 m_dbConnection.Close();
 
-while (reader.Read())
-{
-    var nameColumnId = reader.GetOrdinal("name");
-    var scoreColumnId = reader.GetOrdinal("score");
-
-    var name = reader.GetString(nameColumnId);
-    var score = reader.GetInt32(scoreColumnId);
-
-    string message = $"Name:{name} , Score:{score}";
-
-    Console.WriteLine(message);
-
-    newRecord = new HighScore(name, score).Add(10);
-
-}
 class HighScore
 {
     public HighScore(string _name, int _score)
