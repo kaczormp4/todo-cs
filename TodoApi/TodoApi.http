@@ -7,3 +7,8 @@ Post {{TodoApi_HostAddress}}/add?text=hello2
 Put {{TodoApi_HostAddress}}/change-status?id=1
 
 ###
+
+
+Put {{TodoApi_HostAddress}}/change-status?id=dupa
+
+###

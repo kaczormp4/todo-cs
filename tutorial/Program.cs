@@ -26,8 +26,10 @@ sql = "Insert into highscores (name, score) values ('Me', 9001)";
 command = new SQLiteCommand(sql, m_dbConnection);
 command.ExecuteNonQuery();
 
-SQLiteCommand selectCommand = new SQLiteCommand("select * from highscores", m_dbConnection);
+SQLiteCommand selectCommand = new SQLiteCommand("select * from highscores where name = 'Me' limit 1", m_dbConnection);
 var reader = selectCommand.ExecuteReader();
+
+HighScore newRecord = null;
 
 while (reader.Read())
 {
@@ -40,13 +42,65 @@ while (reader.Read())
     string message = $"Name:{name} , Score:{score}";
 
     Console.WriteLine(message);
+
+    newRecord = new HighScore(name, score).Add(10);
+
 }
-//let selectCommand = new SQLiteCommand("select * from users", connection)
-//    let reader = selectCommand.ExecuteReader()
 
-//    while reader.Read() do
-//       let printmsg = $"""{reader.GetInt32(reader.GetOrdinal("Id"))} {reader.GetString(reader.GetOrdinal("Email"))} {reader.GetInt32(reader.GetOrdinal("age"))}"""
-//       Console.WriteLine(printmsg)
+var newQuery = $"update highscores set score = ${newRecord.score} where name = ${newRecord.name}";
 
+SQLiteCommand updateCommand = new SQLiteCommand(newQuery, m_dbConnection);
+updateCommand.ExecuteNonQuery();
+
+SQLiteCommand selectCommand2 = new SQLiteCommand("select * from highscores where name = 'Me' limit 1", m_dbConnection);
+var reader2 = selectCommand2.ExecuteReader();
+
+while (reader2.Read())
+{
+    var nameColumnId = reader2.GetOrdinal("name");
+    var scoreColumnId = reader2.GetOrdinal("score");
+
+    var name = reader2.GetString(nameColumnId);
+    var score = reader2.GetInt32(scoreColumnId);
+
+    string message = $"Name:{name} , Score:{score}";
+
+    Console.WriteLine(message);
+
+}
 m_dbConnection.Close();
+
+while (reader.Read())
+{
+    var nameColumnId = reader.GetOrdinal("name");
+    var scoreColumnId = reader.GetOrdinal("score");
+
+    var name = reader.GetString(nameColumnId);
+    var score = reader.GetInt32(scoreColumnId);
+
+    string message = $"Name:{name} , Score:{score}";
+
+    Console.WriteLine(message);
+
+    newRecord = new HighScore(name, score).Add(10);
+
+}
+class HighScore
+{
+    public HighScore(string _name, int _score)
+    {
+        name = _name;
+        score = _score;
+    }
+
+    public readonly string name;
+    public readonly int score;
+
+    public HighScore Add(int points)
+    {
+        var newScore = this.score + points;
+
+        return new HighScore(this.name, newScore);
+    }
+}
 
