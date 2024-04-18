@@ -2,7 +2,7 @@
 {
     public class MockStartUp
     {
-        public static ToDoApp.ToDoInMemoryDb Initialize()
+        public static ToDoApp.IToDoRepository Initialize()
         {
             var db = new ToDoApp.ToDoInMemoryDb();
             db.Add("initial item");

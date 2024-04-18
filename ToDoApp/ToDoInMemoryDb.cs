@@ -12,7 +12,7 @@
             Value = text;
         }
     }
-    public class ToDoInMemoryDb
+    public class ToDoInMemoryDb: IToDoRepository
     {
         private List<ToDoItem> _items = new List<ToDoItem>();
         public bool Add(string text)
