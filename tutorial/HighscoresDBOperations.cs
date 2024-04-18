@@ -36,14 +36,18 @@ namespace tutorial
 
         static public void InsertHighscores(SQLiteConnection connection, string name, int score) 
         {
-            string query = $"Insert into highscores (name, score) values ('{name}', {score})";
+            string query = $"Insert into highscores (name, score) values (@firstName, @score)";
             var command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@firstName", name);
+            command.Parameters.AddWithValue("@score", score);
+
             command.ExecuteNonQuery();
         }
 
         static public List<HighScore> SelectHihgscoresByName(SQLiteConnection connection, string name)
         {
-            SQLiteCommand selectCommand = new SQLiteCommand($"select * from highscores where name = '{name}'", connection);
+            SQLiteCommand selectCommand = new SQLiteCommand($"select * from highscores where name = @name", connection);
+            selectCommand.Parameters.AddWithValue("@name", name);
             var reader = selectCommand.ExecuteReader();
 
             var HighScores = new List<HighScore>();
@@ -68,9 +72,11 @@ namespace tutorial
 
         static public void UpdateScoreByName(SQLiteConnection connection, string nameCriteria, int newScore)
         {
-            var newQuery = $"update highscores set score = {newScore} where name = '{nameCriteria}'";
+            var newQuery = $"update highscores set score = @newScore where name = @nameCriteria";
 
             SQLiteCommand updateCommand = new SQLiteCommand(newQuery, connection);
+            updateCommand.Parameters.AddWithValue("@newScore", newScore);
+            updateCommand.Parameters.AddWithValue("@nameCriteria", nameCriteria);
             updateCommand.ExecuteNonQuery();
         }
     }
