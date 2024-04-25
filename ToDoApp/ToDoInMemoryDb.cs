@@ -1,17 +1,6 @@
 ﻿namespace ToDoApp
 {
-    public class ToDoItem
-    {
-        public string Value { get; set; }
-        public int Id { get; }
 
-        public bool IsFinished { get; set; }
-        public ToDoItem(int id,string text)
-        {
-            Id = id;
-            Value = text;
-        }
-    }
     public class ToDoInMemoryDb: IToDoRepository
     {
         private List<ToDoItem> _items = new List<ToDoItem>();
