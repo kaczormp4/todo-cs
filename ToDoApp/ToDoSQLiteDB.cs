@@ -21,18 +21,22 @@ namespace ToDoApp
     public class ToDoSQLiteDB : IToDoRepository
     {
         private string _connectionString;
-        public bool Initialize(string dbName)
+        public bool Initialize(string dbName, bool inMemory)
         {
             try
             {
-                if (File.Exists(dbName))
+                if (!inMemory && File.Exists(dbName))
                 {
                     File.Delete(dbName);
                 }
 
-                SQLiteConnection.CreateFile(dbName);
+                if (!inMemory)
+                {
+                    SQLiteConnection.CreateFile(dbName);
+                }
 
-                _connectionString = $"Data Source={dbName};Version=3;";
+
+                _connectionString = $"DataSource={dbName};Version=3;";
 
                 string sql = "create table todoitems (Id integer primary key autoincrement, Value text not null, IsFinished integer not null)";
                 // TODO make sure to close connection when error occours
@@ -48,7 +52,7 @@ namespace ToDoApp
             {
                 return false;
             }
-   
+
         }
         public bool Add(string text)
         {
@@ -66,7 +70,7 @@ namespace ToDoApp
                 command.ExecuteNonQuery();
 
                 connection.Close();
-                return true;    
+                return true;
             }
             catch
             {
@@ -104,21 +108,17 @@ namespace ToDoApp
 
         public ToDoItem GetItemById(int id)
         {
-            SQLiteConnection connection = new SQLiteConnection(_connectionString);
+            using SQLiteConnection connection = new SQLiteConnection(_connectionString);
 
             try
             {
-
-            
                 connection.Open();
-
 
                 string sql = "select * from todoitems where Id = @IdParam";
 
                 var command = new SQLiteCommand(sql, connection);
                 command.Parameters.AddWithValue("@IdParam", id);
 
-                command.ExecuteNonQuery();
                 var reader = command.ExecuteReader();
 
                 ToDoItem item = null;
@@ -135,7 +135,7 @@ namespace ToDoApp
                     var _isFinishedBool = Convert.ToBoolean(_isFinished);
 
                     item = new ToDoItem(_id, _value, _isFinishedBool);
-                
+
                 }
                 connection.Close();
                 return item;
@@ -148,7 +148,34 @@ namespace ToDoApp
         }
         public IEnumerable<ToDoItem> GetAllItems()
         {
-            throw new NotImplementedException();
+            using SQLiteConnection connection = new SQLiteConnection(_connectionString);
+
+            connection.Open();
+
+            string sql = "select * from todoitems";
+
+            var command = new SQLiteCommand(sql, connection);
+            var reader = command.ExecuteReader();
+
+            List<ToDoItem> items = [];
+
+            while (reader.Read())
+            {
+                var idR = reader.GetOrdinal("Id");
+                var valueR = reader.GetOrdinal("Value");
+                var isFinishedR = reader.GetOrdinal("IsFinished");
+
+                var _id = reader.GetInt32(idR);
+                var _value = reader.GetString(valueR);
+                var _isFinished = reader.GetInt32(isFinishedR);
+                var _isFinishedBool = Convert.ToBoolean(_isFinished);
+
+                var item = new ToDoItem(_id, _value, _isFinishedBool);
+                items.Add(item);
+
+            }
+
+            return items;
         }
     }
 
