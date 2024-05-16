@@ -33,10 +33,15 @@ namespace ToDoApp
                 if (!inMemory)
                 {
                     SQLiteConnection.CreateFile(dbName);
+                    _connectionString = $"DataSource={dbName};Version=3;";
                 }
 
+                if(inMemory)
+                {
+                    _connectionString = $"FullUri=file:{dbName}?mode=memory&cache=shared";
+                }
 
-                _connectionString = $"DataSource={dbName};Version=3;";
+                
 
                 string sql = "create table todoitems (Id integer primary key autoincrement, Value text not null, IsFinished integer not null)";
                 // TODO make sure to close connection when error occours
