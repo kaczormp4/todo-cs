@@ -46,5 +46,47 @@ namespace TestProject1
             var items = db.GetAllItems();
             Assert.Equal(3, items.Count());
         }
+
+        [Fact]
+        public void Should_change_status_by_id()
+        {
+            // Arrange
+            var db = new ToDoApp.ToDoSQLiteDB();
+            db.Initialize(Guid.NewGuid().ToString(), true);
+
+            var items1 = db.GetAllItems();
+            Assert.Empty(items1);
+
+            db.Add("change_status_1");
+
+            var firstItem = db.GetAllItems().First();
+ 
+            Assert.False(firstItem.IsFinished);
+
+            // Act
+            db.ChangeStatus(firstItem.Id);
+
+            firstItem = db.GetAllItems().First();
+
+            Assert.True(firstItem.IsFinished);
+
+        }
+        [Fact]
+        public void Should_not_change_status_by_not_existed_id()
+        {
+            // Arrange
+            var db = new ToDoApp.ToDoSQLiteDB();
+            db.Initialize(Guid.NewGuid().ToString(), true);
+
+            var items1 = db.GetAllItems();
+            Assert.Empty(items1);
+
+            // Act
+            var result = db.ChangeStatus(112);
+
+            // Assert
+            Assert.False(result);
+
+        }
     }
 }
