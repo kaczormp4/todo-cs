@@ -9,10 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp", "ToDoApp\ToDoApp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "TestProject1\TestProject1.csproj", "{FA59C352-D14B-451F-8D4B-6F15D1DA0FA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tutorial", "tutorial\tutorial.csproj", "{3AD7E662-4CCD-4191-9A91-E2433B7B2196}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceTest", "InterfaceTest\InterfaceTest.csproj", "{A49B891E-79F3-4E60-B7C9-1F308DE56A56}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,14 +27,6 @@ Global
 		{FA59C352-D14B-451F-8D4B-6F15D1DA0FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA59C352-D14B-451F-8D4B-6F15D1DA0FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA59C352-D14B-451F-8D4B-6F15D1DA0FA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AD7E662-4CCD-4191-9A91-E2433B7B2196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AD7E662-4CCD-4191-9A91-E2433B7B2196}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AD7E662-4CCD-4191-9A91-E2433B7B2196}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AD7E662-4CCD-4191-9A91-E2433B7B2196}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A49B891E-79F3-4E60-B7C9-1F308DE56A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A49B891E-79F3-4E60-B7C9-1F308DE56A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A49B891E-79F3-4E60-B7C9-1F308DE56A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A49B891E-79F3-4E60-B7C9-1F308DE56A56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
