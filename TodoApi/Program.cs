@@ -5,10 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddCors(options =>
 {
-    var reactAdress = builder.Configuration["reactAdress"];
     options.AddPolicy("AllowMyCustomReactApp", builder =>
     {
-        builder.WithOrigins(reactAdress).AllowAnyHeader().AllowAnyMethod();
+        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 }
 );
